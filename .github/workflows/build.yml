@@ -1,0 +1,180 @@
+# Sta nella repo pubblica TD-Stokk-per-Windows: compila il sorgente della repo privata TD-Stokk e pubblica qui i due
+# MSI. Così la build non consuma i minuti delle repo private e i programmi installati scaricano gli aggiornamenti
+# senza credenziali. Il sorgente non passa mai di qui: solo il registro della build è pubblico.
+# Secret di questa repo: SORGENTE_TOKEN (token con Contents in lettura e scrittura sulla sola TD-Stokk),
+# TD_LICENZE_CHIAVE (chiave-privata.pem di TD Licenze, cifrata), facoltativi TD_LICENZE_REGISTRO e quelli della firma.
+name: Build
+
+on:
+  workflow_dispatch:
+    inputs:
+      rilascio:
+        description: "Pubblica il rilascio con i due MSI"
+        type: boolean
+        default: false
+      ramo:
+        description: "Ramo o tag del sorgente"
+        default: main
+  schedule:
+    # ogni mese un TD Licenze fresco nella release interna della repo privata
+    - cron: "37 2 1 * *"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: build-${{ github.event_name }}
+  cancel-in-progress: true
+
+jobs:
+  msi:
+    if: github.event_name != 'schedule'
+    runs-on: windows-latest
+    permissions:
+      contents: write  # il rilascio si pubblica da questo job, senza artefatti in mezzo
+    timeout-minutes: 60
+    steps:
+      - name: Sorgente (repo privata)
+        uses: actions/checkout@v4
+        with:
+          repository: Giuseppe-sciarra/TD-Stokk
+          token: ${{ secrets.SORGENTE_TOKEN }}
+          ref: ${{ inputs.ramo || 'main' }}
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
+
+      - name: Cache dei download
+        uses: actions/cache@v4
+        with:
+          path: build/cache
+          key: downloads-${{ hashFiles('windows/build.ps1') }}
+
+      # il PostgreSQL del runner, per i test: quello del programma lo installa l'MSI sulla sua porta
+      - name: PostgreSQL per i test
+        run: |
+          $service = Get-Service "postgresql*" | Select-Object -First 1
+          Set-Service $service.Name -StartupType Manual
+          Start-Service $service.Name
+          $env:PGPASSWORD = "root"
+          & "$env:PGBIN\createdb.exe" -h 127.0.0.1 -U postgres banco_test
+          if ($LASTEXITCODE -ne 0) { throw "createdb non riuscito" }
+          "BANCO_TEST_DSN=postgresql://postgres:root@127.0.0.1:5432/banco_test" >> $env:GITHUB_ENV
+
+      - name: Test
+        run: |
+          python -m pip install --disable-pip-version-check -r requirements.txt -r requirements-test.txt
+          python -m pytest -q
+
+      - name: MSI
+        id: msi
+        env:
+          TDSK_RILASCIO: ${{ inputs.rilascio }}
+          WINDOWS_CERT_PFX: ${{ secrets.WINDOWS_CERT_PFX }}
+          WINDOWS_CERT_PASSWORD: ${{ secrets.WINDOWS_CERT_PASSWORD }}
+          AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+          AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+          ARTIFACT_SIGNING_ENDPOINT: ${{ secrets.ARTIFACT_SIGNING_ENDPOINT }}
+          ARTIFACT_SIGNING_ACCOUNT: ${{ secrets.ARTIFACT_SIGNING_ACCOUNT }}
+          ARTIFACT_SIGNING_PROFILE: ${{ secrets.ARTIFACT_SIGNING_PROFILE }}
+        run: |
+          pwsh windows/build.ps1
+          "version=$((Get-Content VERSION).Trim())" >> $env:GITHUB_OUTPUT
+
+      - name: Prova di installazione
+        run: pwsh windows/smoke-test.ps1
+
+      # il programma controlla con questi file l'MSI che scarica per Aggiorna ora
+      - name: SHA-256 degli MSI
+        if: inputs.rilascio
+        shell: bash
+        run: cd dist && for f in *.msi; do sha256sum "$f" > "$f.sha256"; done && cat *.sha256
+
+      - name: Rilascio con gli MSI
+        if: inputs.rilascio
+        shell: bash
+        env:
+          TAG: v${{ steps.msi.outputs.version }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if gh release view "$TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            gh release upload "$TAG" dist/*.msi dist/*.msi.sha256 --repo "$GITHUB_REPOSITORY" --clobber
+          else
+            gh release create "$TAG" dist/*.msi dist/*.msi.sha256 --repo "$GITHUB_REPOSITORY" --target main \
+              --title "TD Stokk $TAG" \
+              --notes "Due installer: TD-Stokk-Server per il PC che tiene i dati, TD-Stokk-Postazione per gli altri PC. 7 giorni di prova. Windows li segnala perché non sono ancora firmati: Ulteriori informazioni, poi Esegui comunque."
+          fi
+
+      # la pagina di questa repo: README e schermate, mai il codice
+      - name: Pagina della vetrina
+        if: inputs.rilascio
+        shell: bash
+        env:
+          TAG: v${{ steps.msi.outputs.version }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git clone -q "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" vetrina-repo
+          cp vetrina/README.md vetrina-repo/README.md
+          if [ -d docs/screenshots ]; then mkdir -p vetrina-repo/screenshots && cp docs/screenshots/*.png vetrina-repo/screenshots/; fi
+          cd vetrina-repo
+          git config user.name "TD Stokk"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add README.md screenshots 2>/dev/null || git add README.md
+          git diff --cached --quiet || git commit -q -m "TD Stokk $TAG"
+          git push -q origin HEAD:main
+
+  licenze:
+    # TD Licenze.exe, la finestra di chi vende per fare le licenze: mai negli MSI dei clienti e mai in questa repo
+    # pubblica. Va solo nella release interna (bozza) della repo privata.
+    runs-on: windows-latest
+    timeout-minutes: 20
+    steps:
+      - name: Sorgente (repo privata)
+        uses: actions/checkout@v4
+        with:
+          repository: Giuseppe-sciarra/TD-Stokk
+          token: ${{ secrets.SORGENTE_TOKEN }}
+          ref: ${{ inputs.ramo || 'main' }}
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: TD Licenze.exe
+        env:
+          TD_LICENZE_CHIAVE: ${{ secrets.TD_LICENZE_CHIAVE }}
+          TD_LICENZE_REGISTRO: ${{ secrets.TD_LICENZE_REGISTRO }}
+          WINDOWS_CERT_PFX: ${{ secrets.WINDOWS_CERT_PFX }}
+          WINDOWS_CERT_PASSWORD: ${{ secrets.WINDOWS_CERT_PASSWORD }}
+          AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+          AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+          ARTIFACT_SIGNING_ENDPOINT: ${{ secrets.ARTIFACT_SIGNING_ENDPOINT }}
+          ARTIFACT_SIGNING_ACCOUNT: ${{ secrets.ARTIFACT_SIGNING_ACCOUNT }}
+          ARTIFACT_SIGNING_PROFILE: ${{ secrets.ARTIFACT_SIGNING_PROFILE }}
+        run: |
+          python -m pip install --disable-pip-version-check "pyinstaller>=6.11,<7" cryptography certifi
+          # la chiave di chi vende, cifrata con la sua password, dentro l'exe: TD Licenze lavora su ogni PC con la password
+          python licenze/incorpora_chiave.py
+          python -m PyInstaller --noconfirm --windowed --name "TD Licenze Stokk" --icon windows/client/app.ico --add-data "windows/client/app.ico;." --paths licenze --hidden-import chiave_incorporata --collect-data certifi --distpath dist-licenze --workpath build/py licenze/td_licenze_gui.py
+          $p = Start-Process "dist-licenze/TD Licenze Stokk/TD Licenze Stokk.exe" -ArgumentList "--prova" -Wait -PassThru
+          if ($p.ExitCode -ne 0) { throw "TD Licenze Stokk.exe non parte, codice $($p.ExitCode)" }
+          & windows/firma.ps1 -Nome "TD Licenze Stokk" -Files "dist-licenze/TD Licenze Stokk/TD Licenze Stokk.exe"
+
+      - name: TD Licenze nella release interna della repo privata
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.SORGENTE_TOKEN }}
+          PRIVATA: Giuseppe-sciarra/TD-Stokk
+        run: |
+          cd dist-licenze && powershell -NoProfile -Command "Compress-Archive -Path 'TD Licenze Stokk' -DestinationPath 'TD-Licenze-Stokk.zip' -Force" && cd ..
+          if ! gh release view td-licenze --repo "$PRIVATA" >/dev/null 2>&1; then
+            gh release create td-licenze --repo "$PRIVATA" --draft --title "TD Licenze Stokk (interno)" --notes "Solo per chi vende le licenze. Mai nella vetrina pubblica."
+          fi
+          gh release upload td-licenze dist-licenze/TD-Licenze-Stokk.zip --repo "$PRIVATA" --clobber
