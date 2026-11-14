@@ -7,7 +7,7 @@ assistenza, con il sito WooCommerce collegato. Un PC tiene i dati, gli altri si 
 
 Nella pagina [Releases](../../releases/latest) ci sono due installer:
 
-- **TD-Stokk-Server**: per il PC che tiene i dati e resta acceso. Installa database e programma, e la finestra per usarlo anche lì.
+- **TD-Stokk-Server**: per il PC che tiene i dati e resta acceso. Installa database, server e il programma per usarlo anche lì.
 - **TD-Stokk-Postazione**: per gli altri PC. Al primo avvio cerca da solo il server in rete.
 
 Windows li segnala perché non sono ancora firmati: **Ulteriori informazioni**, poi **Esegui comunque**.

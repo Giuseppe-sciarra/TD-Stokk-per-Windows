@@ -43,7 +43,7 @@ jobs:
 
       - uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: "8.0.x"
+          dotnet-version: "10.0.x"
 
       - name: Cache dei download
         uses: actions/cache@v4
@@ -85,6 +85,25 @@ jobs:
 
       - name: Prova di installazione
         run: pwsh windows/smoke-test.ps1
+
+      # le schermate che il programma ha fatto di se stesso durante la prova, a ogni build anche se la prova si ferma:
+      # stanno nella cartella schermate di questa repo, per guardare com'è venuto senza installarlo
+      - name: Schermate del programma
+        if: always()
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          [ -d build/schermate ] || exit 0
+          git clone -q "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" schermate-repo
+          rm -rf schermate-repo/schermate && mkdir -p schermate-repo/schermate
+          cp build/schermate/* schermate-repo/schermate/
+          cd schermate-repo
+          git config user.name "TD Stokk"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A schermate
+          git diff --cached --quiet || git commit -q -m "Schermate della build $(cat ../VERSION)"
+          git push -q origin HEAD:main
 
       # il programma controlla con questi file l'MSI che scarica per Aggiorna ora
       - name: SHA-256 degli MSI
