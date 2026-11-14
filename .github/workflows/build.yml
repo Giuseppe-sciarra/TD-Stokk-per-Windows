@@ -138,7 +138,7 @@ jobs:
           cp vetrina/README.md vetrina-repo/README.md
           # le figure della pagina: alcune schermate fatte da questa build, con un nome che non cambia quando cambia il menu
           mkdir -p vetrina-repo/screenshots
-          prendi() { for f in build/schermate/*"$1"; do [ -f "$f" ] && cp "$f" "vetrina-repo/screenshots/$2" && return 0; done; echo "manca la schermata: $1"; }
+          prendi() { for f in build/schermate/*"$1"; do [ -f "$f" ] && cp "$f" "vetrina-repo/screenshots/$2" && return 0; done; echo "::warning::manca la schermata per la pagina: $1"; }
           prendi " Vendite - Vendite.png" vendite.png
           prendi " Vendite - Cassa e chiusure giornaliere.png" cassa.png
           prendi " Vendite - Report del giorno e del periodo.png" report.png
