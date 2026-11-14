@@ -136,7 +136,18 @@ jobs:
         run: |
           git clone -q "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" vetrina-repo
           cp vetrina/README.md vetrina-repo/README.md
-          if [ -d docs/screenshots ]; then mkdir -p vetrina-repo/screenshots && cp docs/screenshots/*.png vetrina-repo/screenshots/; fi
+          # le figure della pagina: alcune schermate fatte da questa build, con un nome che non cambia quando cambia il menu
+          mkdir -p vetrina-repo/screenshots
+          prendi() { for f in build/schermate/*"$1"; do [ -f "$f" ] && cp "$f" "vetrina-repo/screenshots/$2" && return 0; done; echo "manca la schermata: $1"; }
+          prendi " Vendite - Vendite.png" vendite.png
+          prendi " Vendite - Cassa e chiusure giornaliere.png" cassa.png
+          prendi " Vendite - Report del giorno e del periodo.png" report.png
+          prendi " stampa Preventivo 1.png" stampa-preventivo.png
+          prendi " Assistenza - Accettazione assistenza.png" assistenza.png
+          prendi " Magazzino - Stampe magazzino.png" giacenze.png
+          prendi " scheda articolo.png" scheda-articolo.png
+          prendi " stampa Fattura 1.png" stampa-fattura.png
+          prendi " tema scuro - articoli.png" tema-scuro.png
           cd vetrina-repo
           git config user.name "TD Stokk"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
