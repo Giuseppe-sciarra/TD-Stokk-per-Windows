@@ -1,8 +1,8 @@
 # Sta nella repo pubblica TD-Stokk-per-Windows: compila il sorgente della repo privata TD-Stokk e pubblica qui i due
 # MSI. Così la build non consuma i minuti delle repo private e i programmi installati scaricano gli aggiornamenti
 # senza credenziali. Il sorgente non passa mai di qui: solo il registro della build è pubblico.
-# Secret di questa repo: SORGENTE_TOKEN (token con Contents in lettura e scrittura sulla sola TD-Stokk),
-# TD_LICENZE_CHIAVE (chiave-privata.pem di TD Licenze, cifrata), facoltativi TD_LICENZE_REGISTRO e quelli della firma.
+# Secret di questa repo: SORGENTE_TOKEN (token con Contents in lettura e scrittura sulla sola TD-Stokk), facoltativi
+# quelli della firma. Le licenze si creano con TD Licenze, il gestore unico della repo TD-Licenze: qui non si costruisce più.
 name: Build
 
 on:
@@ -15,9 +15,6 @@ on:
       ramo:
         description: "Ramo o tag del sorgente"
         default: main
-  schedule:
-    # ogni mese un TD Licenze fresco nella release interna della repo privata
-    - cron: "37 2 1 * *"
 
 permissions:
   contents: read
@@ -28,7 +25,6 @@ concurrency:
 
 jobs:
   msi:
-    if: github.event_name != 'schedule'
     runs-on: windows-latest
     permissions:
       contents: write  # il rilascio si pubblica da questo job, senza artefatti in mezzo
@@ -128,53 +124,3 @@ jobs:
           git add README.md screenshots 2>/dev/null || git add README.md
           git diff --cached --quiet || git commit -q -m "TD Stokk $TAG"
           git push -q origin HEAD:main
-
-  licenze:
-    # TD Licenze.exe, la finestra di chi vende per fare le licenze: mai negli MSI dei clienti e mai in questa repo
-    # pubblica. Va solo nella release interna (bozza) della repo privata.
-    runs-on: windows-latest
-    timeout-minutes: 20
-    steps:
-      - name: Sorgente (repo privata)
-        uses: actions/checkout@v4
-        with:
-          repository: Giuseppe-sciarra/TD-Stokk
-          token: ${{ secrets.SORGENTE_TOKEN }}
-          ref: ${{ inputs.ramo || 'main' }}
-
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.13"
-
-      - name: TD Licenze.exe
-        env:
-          TD_LICENZE_CHIAVE: ${{ secrets.TD_LICENZE_CHIAVE }}
-          TD_LICENZE_REGISTRO: ${{ secrets.TD_LICENZE_REGISTRO }}
-          WINDOWS_CERT_PFX: ${{ secrets.WINDOWS_CERT_PFX }}
-          WINDOWS_CERT_PASSWORD: ${{ secrets.WINDOWS_CERT_PASSWORD }}
-          AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-          AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-          AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
-          ARTIFACT_SIGNING_ENDPOINT: ${{ secrets.ARTIFACT_SIGNING_ENDPOINT }}
-          ARTIFACT_SIGNING_ACCOUNT: ${{ secrets.ARTIFACT_SIGNING_ACCOUNT }}
-          ARTIFACT_SIGNING_PROFILE: ${{ secrets.ARTIFACT_SIGNING_PROFILE }}
-        run: |
-          python -m pip install --disable-pip-version-check "pyinstaller>=6.11,<7" cryptography certifi
-          # la chiave di chi vende, cifrata con la sua password, dentro l'exe: TD Licenze lavora su ogni PC con la password
-          python licenze/incorpora_chiave.py
-          python -m PyInstaller --noconfirm --windowed --name "TD Licenze Stokk" --icon windows/client/app.ico --add-data "windows/client/app.ico;." --paths licenze --hidden-import chiave_incorporata --collect-data certifi --distpath dist-licenze --workpath build/py licenze/td_licenze_gui.py
-          $p = Start-Process "dist-licenze/TD Licenze Stokk/TD Licenze Stokk.exe" -ArgumentList "--prova" -Wait -PassThru
-          if ($p.ExitCode -ne 0) { throw "TD Licenze Stokk.exe non parte, codice $($p.ExitCode)" }
-          & windows/firma.ps1 -Nome "TD Licenze Stokk" -Files "dist-licenze/TD Licenze Stokk/TD Licenze Stokk.exe"
-
-      - name: TD Licenze nella release interna della repo privata
-        shell: bash
-        env:
-          GH_TOKEN: ${{ secrets.SORGENTE_TOKEN }}
-          PRIVATA: Giuseppe-sciarra/TD-Stokk
-        run: |
-          cd dist-licenze && powershell -NoProfile -Command "Compress-Archive -Path 'TD Licenze Stokk' -DestinationPath 'TD-Licenze-Stokk.zip' -Force" && cd ..
-          if ! gh release view td-licenze --repo "$PRIVATA" >/dev/null 2>&1; then
-            gh release create td-licenze --repo "$PRIVATA" --draft --title "TD Licenze Stokk (interno)" --notes "Solo per chi vende le licenze. Mai nella vetrina pubblica."
-          fi
-          gh release upload td-licenze dist-licenze/TD-Licenze-Stokk.zip --repo "$PRIVATA" --clobber
