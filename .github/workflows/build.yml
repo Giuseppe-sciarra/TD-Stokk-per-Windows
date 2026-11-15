@@ -1,7 +1,7 @@
-# Sta nella repo pubblica TD-Stokk-per-Windows: compila il sorgente della repo privata TD-Stokk e pubblica qui i due
+# Sta nella repo pubblica TD-Vexa-per-Windows: compila il sorgente della repo privata TD-Vexa e pubblica qui i due
 # MSI. Così la build non consuma i minuti delle repo private e i programmi installati scaricano gli aggiornamenti
 # senza credenziali. Il sorgente non passa mai di qui: solo il registro della build è pubblico.
-# Secret di questa repo: SORGENTE_TOKEN (token con Contents in lettura e scrittura sulla sola TD-Stokk), facoltativi
+# Secret di questa repo: SORGENTE_TOKEN (token con Contents in lettura e scrittura sulla sola TD-Vexa), facoltativi
 # quelli della firma. Le licenze si creano con TD Licenze, il gestore unico della repo TD-Licenze: qui non si costruisce più.
 name: Build
 
@@ -37,7 +37,7 @@ jobs:
       - name: Sorgente (repo privata)
         uses: actions/checkout@v4
         with:
-          repository: Giuseppe-sciarra/TD-Stokk
+          repository: Giuseppe-sciarra/TD-Vexa
           token: ${{ secrets.SORGENTE_TOKEN }}
           ref: ${{ inputs.ramo || 'main' }}
 
@@ -103,7 +103,7 @@ jobs:
           rm -rf schermate-repo/schermate && mkdir -p schermate-repo/schermate
           cp build/schermate/* schermate-repo/schermate/
           cd schermate-repo
-          git config user.name "TD Stokk"
+          git config user.name "TD Vexa"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A schermate
           git diff --cached --quiet || git commit -q -m "Schermate della build $(cat ../VERSION)"
@@ -126,8 +126,8 @@ jobs:
             gh release upload "$TAG" dist/*.msi dist/*.msi.sha256 --repo "$GITHUB_REPOSITORY" --clobber
           else
             gh release create "$TAG" dist/*.msi dist/*.msi.sha256 --repo "$GITHUB_REPOSITORY" --target main \
-              --title "TD Stokk $TAG" \
-              --notes "Due installer: TD-Stokk-Server per il PC che tiene i dati, TD-Stokk-Postazione per gli altri PC. 7 giorni di prova. Windows li segnala perché non sono ancora firmati: Ulteriori informazioni, poi Esegui comunque."
+              --title "TD Vexa $TAG" \
+              --notes "Due installer: TD-Vexa-Server per il PC che tiene i dati, TD-Vexa-Postazione per gli altri PC. 7 giorni di prova. Windows li segnala perché non sono ancora firmati: Ulteriori informazioni, poi Esegui comunque."
           fi
 
       # la pagina di questa repo: README e schermate, mai il codice
@@ -161,8 +161,8 @@ jobs:
           # le figure dell'uso dal browser stanno nel sorgente: le fa il giro nel browser (tests/web_giro.py)
           cp vetrina/screenshots/*.png vetrina-repo/screenshots/ 2>/dev/null || true
           cd vetrina-repo
-          git config user.name "TD Stokk"
+          git config user.name "TD Vexa"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add README.md screenshots 2>/dev/null || git add README.md
-          git diff --cached --quiet || git commit -q -m "TD Stokk $TAG"
+          git diff --cached --quiet || git commit -q -m "TD Vexa $TAG"
           git push -q origin HEAD:main
