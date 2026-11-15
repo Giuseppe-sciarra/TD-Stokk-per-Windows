@@ -41,6 +41,8 @@ Cerchi l'articolo scrivendo o lo leggi con il lettore, e la riga è fatta. Il cl
 
 La pagina della cassa mette i numeri in grande: quanto c'è nel cassetto, incassi e uscite del giorno, giornata aperta o chiusa. Sotto, le operazioni che contano, ognuna con scritto cosa fa e con la sua conferma.
 
+![La pagina della cassa](screenshots/cassa.png)
+
 - **Chiusura della giornata**, con la chiusura fiscale sul registratore di cassa collegato.
 - **Versamento in banca**, uscite ed entrate di cassa.
 - **Prima nota** con le scadenze da incassare e da pagare, e **ricevute bancarie** con il file per la banca.
@@ -51,6 +53,8 @@ La pagina della cassa mette i numeri in grande: quanto c'è nel cassetto, incass
 ## Report
 
 Scegli un giorno o un periodo, oppure premi Oggi, Ieri, Questa settimana, Questo mese. Vedi subito venduto, incassato, uscite e margine, con l'andamento a barre e le tabelle per mezzo di pagamento, tipo di documento, operatore e IVA.
+
+![Il report del periodo](screenshots/report.png)
 
 Ogni report si stampa o si salva in PDF, anche **documento per documento**: ora, cliente, operatore, righe e pagamento di ogni scontrino e fattura. Ci sono poi le statistiche di vendite, incassi, clienti, rotazione del magazzino e assistenza.
 
@@ -97,6 +101,8 @@ Il cliente porta un oggetto da riparare: lo accetti in una pagina, anche se il c
 - Listini, listini derivati, offerte speciali, **prezzi programmati** a data, cambio di aliquota IVA in blocco.
 - Etichette, cartelli prezzo ed etichette di spedizione.
 
+![Il registro degli arrivi](screenshots/arrivi.png)
+
 ## Articoli, Icecat e sito
 
 ![La scheda di un articolo](screenshots/scheda-articolo.png)
@@ -137,6 +143,8 @@ Non serve installare niente e non serve una VPN: apri l'indirizzo del negozio da
 ## Come lo vuoi tu
 
 In **Configurazione, Opzioni** scegli come lavora il programma: prezzi con IVA, blocco senza giacenza, sconto massimo, mezzi di pagamento proposti, giorni di validità del preventivo, DDT senza prezzi, riconsegna solo con documento, e altro.
+
+![Le opzioni](screenshots/opzioni.png)
 
 - **Utenti e permessi**: ogni utente vede solo le voci di menu che gli lasci, e il server le chiude davvero.
 - **Registro delle attività**: chi ha annullato, eliminato o cambiato cosa, e quando.
