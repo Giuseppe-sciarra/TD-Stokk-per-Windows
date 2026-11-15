@@ -1,0 +1,4 @@
+Pagina: giacenze
+System.InvalidCastException: Specified cast is not valid.
+   at TDStokk.Giro.Tutto(String utente, String password, String indirizzo)
+   at TDStokk.Giro.<>c__DisplayClass4_0.<<Esegui>b__1>d.MoveNext()
