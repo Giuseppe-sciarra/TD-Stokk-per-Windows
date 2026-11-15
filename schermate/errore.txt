@@ -1,0 +1,8 @@
+Pagina: vendite
+System.ArgumentException: '-10,0,-10,0' non è un valore valido per la proprietà 'Margin'.
+   at System.Windows.DependencyObject.SetValue(DependencyProperty dp, Object value)
+   at TDStokk.Stampa.Affianca(Block[] blocchi)
+   at TDStokk.Stampa.Foglio(String titolo, String numero, String data, JsonObject azienda, String etichetta, JsonObject soggetto, ValueTuple`2[] info, String[] colonne, Int32 numeri, IEnumerable`1 righe, String totale, String note, Boolean firme, String premessa, String file)
+   at TDStokk.PaginaDocumento.StampaDdt(Api api, Int32 gruppo)
+   at TDStokk.Giro.Tutto(String utente, String password, String indirizzo)
+   at TDStokk.Giro.<>c__DisplayClass4_0.<<Esegui>b__1>d.MoveNext()
