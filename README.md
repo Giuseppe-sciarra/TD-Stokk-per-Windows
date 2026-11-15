@@ -2,7 +2,7 @@
 
 **Il gestionale per il negozio: vendite, cassa, preventivi, ordini, assistenza e magazzino in un solo programma, con il sito WooCommerce collegato.** Un PC tiene i dati, gli altri si collegano a lui. In negozio si usa il programma per Windows; da fuori si lavora dal browser, senza installare niente.
 
-[**Scarica l'ultima versione**](../../releases/latest) · Windows 10 e 11 a 64 bit · 7 giorni di prova
+[**Scarica l'ultima versione**](../../releases/latest) · [Pagina del programma](https://tastieredigitali.tech/software/gestionale-negozio/) · Windows 10 e 11 a 64 bit · 7 giorni di prova
 
 ![La pagina delle vendite](screenshots/vendite.png?v=v0.20.0)
 
@@ -184,4 +184,4 @@ Serve un indirizzo pubblico che porti al PC server, per esempio `gestionale.tuod
 
 Le schermate del programma le fa il programma da solo a ogni build (quelle di ogni pagina sono nella cartella [schermate](schermate)); quelle dell'uso dal browser le fa la prova automatica che apre ogni pagina in un browser vero.
 
-Un prodotto di [Tastiere Digitali](https://tastieredigitali.it/).
+Un prodotto di [Tastiere Digitali](https://tastieredigitali.it/) — [TD Vexa su tastieredigitali.tech](https://tastieredigitali.tech/software/gestionale-negozio/)
