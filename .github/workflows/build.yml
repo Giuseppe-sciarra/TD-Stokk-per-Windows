@@ -140,6 +140,8 @@ jobs:
         run: |
           git clone -q "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" vetrina-repo
           cp vetrina/README.md vetrina-repo/README.md
+          # il nome delle figure non cambia: senza la versione in coda il browser continua a mostrare quelle vecchie
+          sed -i -E "s#(screenshots/[a-z-]+\.png)#\1?v=${TAG}#g" vetrina-repo/README.md
           # le figure della pagina: alcune schermate fatte da questa build, con un nome che non cambia quando cambia il menu
           mkdir -p vetrina-repo/screenshots
           prendi() { for f in build/schermate/*"$1"; do [ -f "$f" ] && cp "$f" "vetrina-repo/screenshots/$2" && return 0; done; echo "::warning::manca la schermata per la pagina: $1"; }
