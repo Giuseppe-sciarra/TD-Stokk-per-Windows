@@ -1,14 +1,14 @@
-# TD Stokk
+# TD Vexa
 
 **Il gestionale per il negozio: vendite, cassa, preventivi, ordini, assistenza e magazzino in un solo programma, con il sito WooCommerce collegato.** Un PC tiene i dati, gli altri si collegano a lui. In negozio si usa il programma per Windows; da fuori si lavora dal browser, senza installare niente.
 
 [**Scarica l'ultima versione**](../../releases/latest) · Windows 10 e 11 a 64 bit · 7 giorni di prova
 
-![La pagina delle vendite](screenshots/vendite.png?v=v0.19.0)
+![La pagina delle vendite](screenshots/vendite.png?v=v0.20.0)
 
 ## A cosa serve
 
-TD Stokk è fatto per un negozio che vende al banco, fa assistenza e tiene un magazzino: informatica, elettronica, ricambi. Fa le cose di tutti i giorni senza giri:
+TD Vexa è fatto per un negozio che vende al banco, fa assistenza e tiene un magazzino: informatica, elettronica, ricambi. Fa le cose di tutti i giorni senza giri:
 
 - **al banco**: scontrino, fattura, DDT e nota di credito dalla stessa pagina, con il lettore di codici a barre;
 - **in cassa**: quanto c'è nel cassetto, versamenti, chiusura della giornata e riepilogo del giorno da stampare;
@@ -41,7 +41,7 @@ Cerchi l'articolo scrivendo o lo leggi con il lettore, e la riga è fatta. Il cl
 
 La pagina della cassa mette i numeri in grande: quanto c'è nel cassetto, incassi e uscite del giorno, giornata aperta o chiusa. Sotto, le operazioni che contano, ognuna con scritto cosa fa e con la sua conferma.
 
-![La pagina della cassa](screenshots/cassa.png?v=v0.19.0)
+![La pagina della cassa](screenshots/cassa.png?v=v0.20.0)
 
 - **Chiusura della giornata**, con la chiusura fiscale sul registratore di cassa collegato.
 - **Versamento in banca**, uscite ed entrate di cassa.
@@ -54,7 +54,7 @@ La pagina della cassa mette i numeri in grande: quanto c'è nel cassetto, incass
 
 Scegli un giorno o un periodo, oppure premi Oggi, Ieri, Questa settimana, Questo mese. Vedi subito venduto, incassato, uscite e margine, con l'andamento a barre e le tabelle per mezzo di pagamento, tipo di documento, operatore e IVA.
 
-![Il report del periodo](screenshots/report.png?v=v0.19.0)
+![Il report del periodo](screenshots/report.png?v=v0.20.0)
 
 Ogni report si stampa o si salva in PDF, anche **documento per documento**: ora, cliente, operatore, righe e pagamento di ogni scontrino e fattura. Ci sono poi le statistiche di vendite, incassi, clienti, rotazione del magazzino e assistenza.
 
@@ -62,19 +62,19 @@ Ogni report si stampa o si salva in PDF, anche **documento per documento**: ora,
 
 Il preventivo si scrive come una vendita e si stampa con il tuo logo, il testo di apertura e di chiusura che vuoi tu, e solo le colonne che decidi di mostrare. Si manda per email con il PDF allegato, si clona, e con un tasto diventa un ordine.
 
-![Un preventivo stampato](screenshots/stampa-preventivo.png?v=v0.19.0)
+![Un preventivo stampato](screenshots/stampa-preventivo.png?v=v0.20.0)
 
 - Ordini dei clienti con **caparra** (e ricevuta da far firmare), consegna prevista, riferimento del cliente.
 - Merce **assegnata** all'ordine, lista di quello che manca, avviso al cliente quando arriva.
 - Dall'ordine alla consegna con scontrino, fattura o DDT; i DDT si fatturano insieme a fine mese, con la data che scegli.
 
-![Gli ordini dei clienti](screenshots/ordini.png?v=v0.19.0)
+![Gli ordini dei clienti](screenshots/ordini.png?v=v0.20.0)
 
 ## Assistenza
 
 Il cliente porta un oggetto da riparare: lo accetti in una pagina, anche se il cliente è nuovo, e stampi la **ricevuta** per lui e la **scheda interna** per il laboratorio, con tutti i suoi recapiti.
 
-![L'accettazione di una riparazione](screenshots/assistenza.png?v=v0.19.0)
+![L'accettazione di una riparazione](screenshots/assistenza.png?v=v0.20.0)
 
 - **Garanzia** con data d'acquisto e scadenza: se l'oggetto l'hai venduto tu, il numero di serie le scrive da solo.
 - Urgente, preventivo richiesto, data in cui deve essere pronto.
@@ -84,11 +84,11 @@ Il cliente porta un oggetto da riparare: lo accetti in una pagina, anche se il c
 - Invio al fornitore con il DDT, **rientro con il suo documento**, e registro delle riparazioni.
 - Guasti e resi a fornitore (RMA) con numero, date e stato.
 
-![La gestione degli interventi](screenshots/interventi.png?v=v0.19.0)
+![La gestione degli interventi](screenshots/interventi.png?v=v0.20.0)
 
 ## Magazzino e acquisti
 
-![Le giacenze](screenshots/giacenze.png?v=v0.19.0)
+![Le giacenze](screenshots/giacenze.png?v=v0.20.0)
 
 - Più magazzini, carichi e scarichi, giacenze e valorizzazione, **trasferimento** da un magazzino all'altro in un colpo.
 - **Arrivo merce** con il documento del fornitore, le spese di trasporto divise sui costi e la conferma con il totale.
@@ -101,11 +101,11 @@ Il cliente porta un oggetto da riparare: lo accetti in una pagina, anche se il c
 - Listini, listini derivati, offerte speciali, **prezzi programmati** a data, cambio di aliquota IVA in blocco.
 - Etichette, cartelli prezzo ed etichette di spedizione.
 
-![Il registro degli arrivi](screenshots/arrivi.png?v=v0.19.0)
+![Il registro degli arrivi](screenshots/arrivi.png?v=v0.20.0)
 
 ## Articoli, Icecat e sito
 
-![La scheda di un articolo](screenshots/scheda-articolo.png?v=v0.19.0)
+![La scheda di un articolo](screenshots/scheda-articolo.png?v=v0.20.0)
 
 - L'articolo nuovo si compila a mano o si scarica da **Icecat** con il codice EAN: descrizione, immagini e caratteristiche.
 - Prezzo senza IVA, con IVA e ricarico sul costo, uno accanto all'altro; un articolo si **clona** con un tasto.
@@ -116,7 +116,7 @@ Il cliente porta un oggetto da riparare: lo accetti in una pagina, anche se il c
 
 Ogni stampa si apre in anteprima: da lì **Stampa** va diretta alla stampante e **Salva in PDF** propone già il nome del file. Nel PDF il testo si seleziona e si cerca. Il logo si carica una volta in Configurazione e compare su tutti i documenti.
 
-![Una fattura stampata](screenshots/stampa-fattura.png?v=v0.19.0)
+![Una fattura stampata](screenshots/stampa-fattura.png?v=v0.20.0)
 
 - **DDT** con causale, aspetto dei beni, colli, peso, porto e vettore; se vuoi, senza prezzi.
 - Su un documento emesso si correggono note, numeri di serie e dati di trasporto, senza rifarlo.
@@ -128,23 +128,23 @@ Ogni stampa si apre in anteprima: da lì **Stampa** va diretta alla stampante e 
 
 Non serve installare niente e non serve una VPN: apri l'indirizzo del negozio dal browser, entri con utente, password e (se l'hai attivata) la verifica in due passaggi, e trovi lo stesso menu del programma.
 
-![Le vendite dal browser](screenshots/web-vendita.png?v=v0.19.0)
+![Le vendite dal browser](screenshots/web-vendita.png?v=v0.20.0)
 
 - Vendite, preventivi, ordini, documenti, cassa, assistenza, magazzino, anagrafiche e configurazione: le stesse funzioni.
 - **Le stampe escono sulla stampante del PC da cui sei collegato**, oppure le salvi in PDF dal browser.
 - **Lo scontrino esce sulla cassa del negozio** anche se la vendita la fai dal browser o da un'altra postazione: lo batte il PC a cui la cassa è collegata.
 
-![La cassa dal browser](screenshots/web-cassa.png?v=v0.19.0)
+![La cassa dal browser](screenshots/web-cassa.png?v=v0.20.0)
 
-![Ricambi e manodopera di una riparazione, dal browser](screenshots/web-ricambi.png?v=v0.19.0)
+![Ricambi e manodopera di una riparazione, dal browser](screenshots/web-ricambi.png?v=v0.20.0)
 
-![I documenti emessi, dal browser](screenshots/web-documenti.png?v=v0.19.0)
+![I documenti emessi, dal browser](screenshots/web-documenti.png?v=v0.20.0)
 
 ## Come lo vuoi tu
 
 In **Configurazione, Opzioni** scegli come lavora il programma: prezzi con IVA, blocco senza giacenza, sconto massimo, mezzi di pagamento proposti, giorni di validità del preventivo, DDT senza prezzi, riconsegna solo con documento, e altro.
 
-![Le opzioni](screenshots/opzioni.png?v=v0.19.0)
+![Le opzioni](screenshots/opzioni.png?v=v0.20.0)
 
 - **Utenti e permessi**: ogni utente vede solo le voci di menu che gli lasci, e il server le chiude davvero.
 - **Registro delle attività**: chi ha annullato, eliminato o cambiato cosa, e quando.
@@ -152,23 +152,23 @@ In **Configurazione, Opzioni** scegli come lavora il programma: prezzi con IVA, 
 
 ## Chiaro e scuro
 
-![Il tema scuro](screenshots/tema-scuro.png?v=v0.19.0)
+![Il tema scuro](screenshots/tema-scuro.png?v=v0.20.0)
 
 ## Scaricare e installare
 
 Nella pagina [Releases](../../releases/latest) ci sono due installer:
 
-- **TD-Stokk-Server**: per il PC che tiene i dati e resta acceso. Installa database, server e il programma per usarlo anche lì.
-- **TD-Stokk-Postazione**: per gli altri PC. Al primo avvio cerca da solo il server in rete.
+- **TD-Vexa-Server**: per il PC che tiene i dati e resta acceso. Installa database, server e il programma per usarlo anche lì.
+- **TD-Vexa-Postazione**: per gli altri PC. Al primo avvio cerca da solo il server in rete.
 
 Windows li segnala perché non sono ancora firmati: **Ulteriori informazioni**, poi **Esegui comunque**.
 
 ### Primo avvio
 
-1. Installa **TD-Stokk-Server** sul PC server.
-2. Apri TD Stokk: chiede il **codice del primo avvio**, che trovi nel menu Start, TD Stokk, *Codice del primo avvio*.
+1. Installa **TD-Vexa-Server** sul PC server.
+2. Apri TD Vexa: chiede il **codice del primo avvio**, che trovi nel menu Start, TD Vexa, *Codice del primo avvio*.
 3. Crea l'amministratore, poi inserisci la licenza o attiva la **prova di 7 giorni**.
-4. Sugli altri PC installa **TD-Stokk-Postazione** e conferma l'impronta del certificato, uguale a quella della pagina *Postazioni* del server.
+4. Sugli altri PC installa **TD-Vexa-Postazione** e conferma l'impronta del certificato, uguale a quella della pagina *Postazioni* del server.
 
 Gli aggiornamenti li propone il programma: **Aggiorna ora** scarica la versione nuova, la controlla e la installa.
 
