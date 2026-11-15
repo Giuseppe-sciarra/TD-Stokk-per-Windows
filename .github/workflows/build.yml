@@ -12,6 +12,10 @@ on:
         description: "Pubblica il rilascio con i due MSI"
         type: boolean
         default: false
+      vetrina:
+        description: "Aggiorna la pagina e le schermate, senza pubblicare un rilascio"
+        type: boolean
+        default: false
       ramo:
         description: "Ramo o tag del sorgente"
         default: main
@@ -128,7 +132,7 @@ jobs:
 
       # la pagina di questa repo: README e schermate, mai il codice
       - name: Pagina della vetrina
-        if: inputs.rilascio
+        if: inputs.rilascio || inputs.vetrina
         shell: bash
         env:
           TAG: v${{ steps.msi.outputs.version }}
