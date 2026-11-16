@@ -127,7 +127,7 @@ jobs:
           else
             gh release create "$TAG" dist/*.msi dist/*.msi.sha256 --repo "$GITHUB_REPOSITORY" --target main \
               --title "TD Vexa $TAG" \
-              --notes "Due installer: TD-Vexa-Server per il PC che tiene i dati, TD-Vexa-Postazione per gli altri PC. 7 giorni di prova. Windows li segnala perché non sono ancora firmati: Ulteriori informazioni, poi Esegui comunque."
+              --notes "Due installer: TD-Vexa-Server per il PC che tiene i dati, TD-Vexa-Postazione per gli altri PC. 7 giorni di prova. Firmati digitalmente da Tastiere Digitali."
           fi
 
       # la pagina di questa repo: README e schermate, mai il codice

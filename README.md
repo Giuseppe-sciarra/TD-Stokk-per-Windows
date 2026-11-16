@@ -161,7 +161,7 @@ Nella pagina [Releases](../../releases/latest) ci sono due installer:
 - **TD-Vexa-Server**: per il PC che tiene i dati e resta acceso. Installa database, server e il programma per usarlo anche lì.
 - **TD-Vexa-Postazione**: per gli altri PC. Al primo avvio cerca da solo il server in rete.
 
-Windows li segnala perché non sono ancora firmati: **Ulteriori informazioni**, poi **Esegui comunque**.
+Gli installer sono **firmati digitalmente** da Tastiere Digitali: prima di installare, Windows mostra il nostro nome come editore verificato.
 
 ### Primo avvio
 
