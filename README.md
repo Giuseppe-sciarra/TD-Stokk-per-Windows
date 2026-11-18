@@ -6,6 +6,10 @@
 
 ![La pagina delle vendite](screenshots/vendite.png?v=v0.44.40)
 
+Il cliente si sceglie da una finestra di ricerca: per ragione sociale, partita IVA, codice, indirizzo o città, così due clienti con lo stesso nome non si confondono.
+
+![La ricerca dei clienti](screenshots/ricerca-clienti.png?v=v0.44.40)
+
 ## A cosa serve
 
 TD Vexa è fatto per un negozio che vende al banco, fa assistenza e tiene un magazzino: informatica, elettronica, ricambi. Fa le cose di tutti i giorni senza giri:
@@ -92,7 +96,7 @@ Il cliente porta un oggetto da riparare: lo accetti in una pagina, anche se il c
 
 - Più magazzini, carichi e scarichi, giacenze e valorizzazione, **trasferimento** da un magazzino all'altro in un colpo.
 - **Arrivo merce** con il documento del fornitore, le spese di trasporto divise sui costi e la conferma con il totale.
-- **Registro degli arrivi**: ogni arrivo si ristampa o si annulla tutto intero.
+- **Modifica arrivi**: ogni arrivo si ristampa o si annulla tutto intero.
 - **Inventario**: scrivi quello che hai contato, il programma stampa le differenze e porta le giacenze a quei numeri.
 - **Scorte minime** e **ordini ai fornitori**, anche creati da soli: un ordine per fornitore con la merce che manca ai clienti e quella sotto scorta, a multipli del lotto minimo.
 - **Fornitori alternativi** con il loro codice e il loro costo, e **articoli equivalenti**.
