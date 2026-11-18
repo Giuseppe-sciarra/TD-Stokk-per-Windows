@@ -145,8 +145,8 @@ jobs:
           # le figure della pagina: alcune schermate fatte da questa build, con un nome che non cambia quando cambia il menu
           mkdir -p vetrina-repo/screenshots
           prendi() { for f in build/schermate/*"$1"; do [ -f "$f" ] && cp "$f" "vetrina-repo/screenshots/$2" && return 0; done; echo "::warning::manca la schermata per la pagina: $1"; }
-          prendi " Vendite - Vendite.png" vendite.png
-          prendi " Vendite - Cassa e chiusure giornaliere.png" cassa.png
+          prendi " Vendite - Vendite immediate.png" vendite.png
+          prendi " Vendite - Chiusure giornaliere.png" cassa.png
           prendi " Vendite - Report del giorno e del periodo.png" report.png
           prendi " stampa Preventivo 1.png" stampa-preventivo.png
           prendi " Assistenza - Accettazione assistenza.png" assistenza.png
@@ -155,9 +155,10 @@ jobs:
           prendi " stampa Fattura 1.png" stampa-fattura.png
           prendi " tema scuro - articoli.png" tema-scuro.png
           prendi " Assistenza - Gestione interventi.png" interventi.png
-          prendi " Preventivi ed ordini - Ordini clienti.png" ordini.png
-          prendi " Magazzino - Registro degli arrivi.png" arrivi.png
-          prendi " Configurazione - Opzioni.png" opzioni.png
+          prendi " Documenti - Ordini clienti.png" ordini.png
+          prendi " Magazzino - Modifica arrivi.png" arrivi.png
+          prendi " Configurazione e utilità - Opzioni.png" opzioni.png
+          prendi " ricerca clienti.png" ricerca-clienti.png
           # le figure dell'uso dal browser stanno nel sorgente: le fa il giro nel browser (tests/web_giro.py)
           cp vetrina/screenshots/*.png vetrina-repo/screenshots/ 2>/dev/null || true
           cd vetrina-repo
